@@ -40,26 +40,14 @@ st.title("🎬 Movie Recommendation System")
 selected_movie = st.selectbox("Select a movie:", movies['title'].values)
 
 if st.button('Recommend'):
-    # 1. This gets your list of recommended movies
     recommendations = get_recommendations(selected_movie)
     
-    # 2. THIS IS THE MISSING PIECE: Extract the IDs from the recommendations
-    # We take the 'movie_id' column and turn it into a list for the executor
-    movie_ids = recommendations['movie_id'].tolist()
-    
-    # 3. Now run the threading with the IDs we just created
+    # CORRECTED THREADING: Run inside the button block
     with st.spinner('Fetching posters...'):
         with ThreadPoolExecutor() as executor:
             poster_urls = list(executor.map(fetch_poster, movie_ids))
     
     st.write("Top 10 recommended movies:")
-    
-    # 4. Display your results (Example layout)
-    cols = st.columns(5)
-    for i in range(10):
-        with cols[i % 5]:
-            st.text(recommendations['title'].iloc[i])
-            st.image(poster_urls[i])
     
     # Display in 2 rows of 5
     for i in range(0, 10, 5): 

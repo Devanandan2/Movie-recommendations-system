@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd 
 import requests
 import pickle
+import streamlit as st
 from concurrent.futures import ThreadPoolExecutor
 
 # Page Config
@@ -40,21 +41,19 @@ st.title("🎬 Movie Recommendation System")
 selected_movie = st.selectbox("Select a movie:", movies['title'].values)
 
 if st.button('Recommend'):
+    # Everything from here down MUST be indented
     recommendations = get_recommendations(selected_movie)
-    
-    # 1. Create the movie_ids list
     movie_ids = recommendations['movie_id'].tolist()
     
-    # 2. Fetch the posters
     with st.spinner('Fetching posters...'):
         with ThreadPoolExecutor() as executor:
+            # We create it here...
             poster_urls = list(executor.map(fetch_poster, movie_ids))
     
-    # 3. DISPLAY CODE (Must be indented under the button)
     st.write("Top 10 recommended movies:")
     cols = st.columns(5)
     
-    # Now poster_urls is guaranteed to exist because the button was clicked
+    # ...so we must USE it here, while still indented!
     for j in range(len(poster_urls)):
         with cols[j % 5]:
             st.text(recommendations['title'].iloc[j])

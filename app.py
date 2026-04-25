@@ -17,7 +17,7 @@ movies, cosine_sim = load_data()
 
 def fetch_poster(movie_id):
     # This safely pulls the key from your Streamlit settings
-    api_key = st.secrets["Ttmdb_api_key"] 
+    api_key = st.secrets["tmdb_api_key"] 
     url = f'https://api.themoviedb.org/3/movie/{movie_id}?api_key={api_key}'
     try:
         data = requests.get(url, timeout=5).json()

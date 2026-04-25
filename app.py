@@ -16,6 +16,7 @@ movies, cosine_sim = load_data()
 
 def fetch_poster(movie_id):
     # api_key = 'st.secrets['tmdb_api_key']'
+    movie_id=movie_id
     url = f'https://api.themoviedb.org/3/movie/{movie_id}?api_key={api_key}'
     try:
         data = requests.get(url, timeout=5).json()

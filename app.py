@@ -54,11 +54,11 @@ if st.button('Recommend'):
         cols = st.columns(5) 
         for col_idx, j in enumerate(range(i, i + 5)):
             # Create columns for display
-cols = st.columns(5) 
+            cols = st.columns(5) 
 
 # Instead of a fixed range, use the actual length of the posters we found
-for j in range(len(poster_urls)):
-    # This keeps the layout in rows of 5
-    with cols[j % 5]:
-        st.text(recommendations['title'].iloc[j])
-        st.image(poster_urls[j])
+        for j in range(len(poster_urls)):
+            # This keeps the layout in rows of 5
+            with cols[j % 5]:
+                st.text(recommendations['title'].iloc[j])
+                st.image(poster_urls[j])

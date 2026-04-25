@@ -44,7 +44,7 @@ if st.button('Recommend'):
     # CORRECTED THREADING: Run inside the button block
     with st.spinner('Fetching posters...'):
         with ThreadPoolExecutor() as executor:
-            poster_urls = list(executor.map(fetch_poster, recommendations['movie_id']))
+            poster_urls = list(executor.map(fetch_poster, recommendations))
     
     st.write("Top 10 recommended movies:")
     

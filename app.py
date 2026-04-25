@@ -15,9 +15,9 @@ def load_data():
 movies, cosine_sim = load_data()
 
 def fetch_poster(movie_id):
-    # api_key = 'st.secrets['tmdb_api_key']'
-    movie_id=movie_id
+    api_key = "YOUR_TMDB_API_KEY_HERE" # Make sure your key is inside the function
     url = f'https://api.themoviedb.org/3/movie/{movie_id}?api_key={api_key}'
+    # ... rest of your function code ...
     try:
         data = requests.get(url, timeout=5).json()
         poster_path = data.get('poster_path')
@@ -45,7 +45,7 @@ if st.button('Recommend'):
     # CORRECTED THREADING: Run inside the button block
     with st.spinner('Fetching posters...'):
         with ThreadPoolExecutor() as executor:
-            poster_urls = list(executor.map(fetch_poster, recommendations))
+            poster_urls = list(executor.map(fetch_poster, movie_ids))
     
     st.write("Top 10 recommended movies:")
     

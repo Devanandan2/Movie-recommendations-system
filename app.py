@@ -42,23 +42,20 @@ selected_movie = st.selectbox("Select a movie:", movies['title'].values)
 if st.button('Recommend'):
     recommendations = get_recommendations(selected_movie)
     
-    # CORRECTED THREADING: Run inside the button block
+    # 1. Create the movie_ids list
+    movie_ids = recommendations['movie_id'].tolist()
+    
+    # 2. Fetch the posters
     with st.spinner('Fetching posters...'):
         with ThreadPoolExecutor() as executor:
-            movie_ids = recommendations['movie_id'].values
+            poster_urls = list(executor.map(fetch_poster, movie_ids))
     
+    # 3. DISPLAY CODE (Must be indented under the button)
     st.write("Top 10 recommended movies:")
+    cols = st.columns(5)
     
-    # Display in 2 rows of 5
-    for i in range(0, 10, 5): 
-        cols = st.columns(5) 
-        for col_idx, j in enumerate(range(i, i + 5)):
-            # Create columns for display
-            cols = st.columns(5) 
-
-# Instead of a fixed range, use the actual length of the posters we found
-        for j in range(len(poster_urls)):
-            # This keeps the layout in rows of 5
-            with cols[j % 5]:
-                st.text(recommendations['title'].iloc[j])
-                st.image(poster_urls[j])
+    # Now poster_urls is guaranteed to exist because the button was clicked
+    for j in range(len(poster_urls)):
+        with cols[j % 5]:
+            st.text(recommendations['title'].iloc[j])
+            st.image(poster_urls[j])
